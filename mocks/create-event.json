@@ -1,3 +1,3 @@
 {
-  "body": "{\"messages\":\"test message\",\"categories\":\"cheesy\"}"
+  "body": "{\"messages\":[\"some random text\", \"second part\"],\"categories\":[\"stupid\"]}"
 }
