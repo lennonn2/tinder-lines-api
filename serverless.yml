@@ -1,10 +1,12 @@
-service: tinderlines-app-api
+# NOTE: update this with your service name
+service: tinder-lines-api
 
-# Use serverless-webpack plugin to transpile ES6/ES7
+# Use the serverless-webpack plugin to transpile ES6
 plugins:
   - serverless-webpack
+  - serverless-offline
 
-# Configuration for serverless-webpack
+# serverless-webpack configuration
 # Enable auto-packing of external modules
 custom:
   webpack:
@@ -13,10 +15,10 @@ custom:
 
 provider:
   name: aws
-  runtime: nodejs6.10
+  runtime: nodejs8.10
   stage: prod
   region: us-east-1
-
+  
   # 'iamRoleStatement' defines the permission policy for the Lambda function.
   # In this case Lambda functions are granted with permissions to access DynamoDB.
   iamRoleStatements:
@@ -42,7 +44,18 @@ functions:
     handler: create.main
     events:
       - http:
-          path: lines
+          path: notes
           method: post
+          cors: true
+          authorizer: aws_iam
+  get:
+    # Defines an HTTP API endpoint that calls the main function in get.js
+    # - path: url path is /notes/{id}
+    # - method: GET request
+    handler: get.main
+    events:
+      - http:
+          path: lines
+          method: get
           cors: true
           authorizer: aws_iam
