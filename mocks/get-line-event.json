@@ -1,3 +1,5 @@
 {
-  "categories": ["cheesy", "pickup"]
+  "headers":{
+    "categories": ["cheesy", "pickup"]
+  }
 }
