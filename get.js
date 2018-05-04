@@ -26,8 +26,6 @@ export async function main(event, context, callback) {
 
   try {
     const keys = Object.keys(valuesObj);
-    _(keys).each(value => console.log(value));
-    
     const result = await dynamoDbLib.call("scan", params);
     
     if (result.Items) {
