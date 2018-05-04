@@ -3,18 +3,21 @@ import { success, failure } from "./libs/response-lib";
 import _ from 'lodash';
 
 export async function main(event, context, callback) {
-  const valuesObj = {};
-  console.log(event.categories);
   
-  const values = event.categories
-    .forEach((cat, i) => {
-      valuesObj[`:cat${i}`] = cat;
-    });
+  const valuesObj = {};
+  console.log(`categories: ${event.headers.categories}`);
+  const catArray = event.headers.categories.split(',');
+  _.forEach(catArray, (cat, i) => {
+    valuesObj[`:cat${i}`] = cat;
+    console.log(`cat is ${cat}, i is ${i}`);
+  });
+
   const filter = Object.keys(valuesObj)
     .reduce((val, cat, i, arr) => {
       const or = i === arr.length - 1 ? '' : ' OR '
       return val + `contains(categories, ${cat})${or}`;
     }, '');
+
   const params = {
     TableName: "lines",
     FilterExpression : filter,
@@ -22,10 +25,10 @@ export async function main(event, context, callback) {
   };
 
   try {
-    console.log(params.ExpressionAttributeValues);
+    const keys = Object.keys(valuesObj);
+    _(keys).each(value => console.log(value));
     
     const result = await dynamoDbLib.call("scan", params);
-    console.log(Object.keys(result));
     
     if (result.Items) {
       // Return the retrieved item
@@ -34,8 +37,6 @@ export async function main(event, context, callback) {
       callback(null, failure({ status: false, error: "Item not found." }));
     }
   } catch (e) {
-    console.log(e);
-    
     callback(null, failure({ status: false }));
   }
 }
