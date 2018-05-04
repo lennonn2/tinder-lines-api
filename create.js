@@ -5,7 +5,6 @@ import { success, failure } from "./libs/response-lib";
 export async function main(event, context, callback) {
   // Request body is passed in as a JSON encoded string in 'event.body'
   const data = JSON.parse(event.body);
-  console.log('************************************');
   
   const params = {
     TableName: "lines",
@@ -18,7 +17,9 @@ export async function main(event, context, callback) {
       lineId: uuid.v1(),
       messages: data.messages,
       categories: data.categories,
-      createdAt: new Date().getTime()
+      createdAt: new Date().getTime(),
+      views: 0,
+      copies: 0
     }
   };
 
