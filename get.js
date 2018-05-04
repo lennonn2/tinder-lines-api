@@ -3,7 +3,6 @@ import { success, failure } from "./libs/response-lib";
 import _ from 'lodash';
 
 export async function main(event, context, callback) {
-  console.log();
   
   const valuesObj = {};
   console.log(`categories: ${event.headers.categories}`);
@@ -28,10 +27,8 @@ export async function main(event, context, callback) {
   try {
     const keys = Object.keys(valuesObj);
     _(keys).each(value => console.log(value));
-    console.log(`******************* ${filter} *******************`);
     
     const result = await dynamoDbLib.call("scan", params);
-    console.log('scan complete');
     
     if (result.Items) {
       // Return the retrieved item
@@ -40,8 +37,6 @@ export async function main(event, context, callback) {
       callback(null, failure({ status: false, error: "Item not found." }));
     }
   } catch (e) {
-    console.log(e);
-    
     callback(null, failure({ status: false }));
   }
 }
