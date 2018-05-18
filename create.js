@@ -18,7 +18,7 @@ export async function main(event, context, callback) {
       messages: data.messages,
       categories: data.categories,
       createdAt: new Date().getTime(),
-      views: 0,
+      numViews: 0,
       copies: 0
     }
   };
