@@ -18,8 +18,6 @@ export async function main(event, context, callback) {
   };
 
   try {
-    console.log(params);
-    
     await dynamoDbLib.call("update", params);
     callback(null, success(params.Item));
   } catch (e) {
