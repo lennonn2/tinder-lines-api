@@ -73,3 +73,11 @@ functions:
           path: views
           method: post
           cors: true
+
+  updateCopies:
+    handler: updateCopies.main
+    events:
+      - http:
+          path: copies
+          method: post
+          cors: true
